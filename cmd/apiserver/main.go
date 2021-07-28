@@ -1,14 +1,14 @@
 package main
 
 import (
-	"strings"
-
 	healthcontroller "github.com/ViaQ/log-exploration-api/pkg/controllers/health"
 	logscontroller "github.com/ViaQ/log-exploration-api/pkg/controllers/logs"
+	metricscontroller "github.com/ViaQ/log-exploration-api/pkg/controllers/metrics"
 	"github.com/ViaQ/log-exploration-api/pkg/elastic"
 	"github.com/ViaQ/log-exploration-api/pkg/version"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"strings"
 
 	"github.com/ViaQ/log-exploration-api/pkg/configuration"
 	"github.com/gin-gonic/gin"
@@ -34,10 +34,12 @@ func main() {
 	}
 
 	router := gin.New()
+	metricscontroller.NewMetricsController(router)
 	logscontroller.NewLogsController(log.Named("logs-controller"), repository, router)
 	healthcontroller.NewHealthController(router, repository)
 
 	router.Run()
+
 }
 
 func initCustomZapLogger(level string) (*zap.Logger, error) {

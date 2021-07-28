@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: log-exploration-api-container
-        image: quay.io/openshift-logging/log-exploration-api:latest
+        # image: quay.io/openshift-logging/log-exploration-api:latest
+        image: quay.io/jezhu/mergemetrics:19
         env:
         - name: ES_ADDR
           value: https://elasticsearch.openshift-logging:9200
@@ -51,4 +52,3 @@ spec:
              secretName: elasticsearch
              defaultMode: 420
 
-        

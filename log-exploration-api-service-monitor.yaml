@@ -1,0 +1,30 @@
+# Template taken from : https://docs.openshift.com/container-platform/4.6/monitoring/managing-metrics.html
+# section : Specifying how a service is monitored
+# Template Updated -- to copy from elasticserach operator (does not have tlsConfig -- certificates), uses http not https
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: log-exploration-api-service-monitor
+  namespace: openshift-logging # defines what namespace to put this resource in
+spec:
+  endpoints:
+    - path: /metrics
+      port: prom-metrics
+      targetPort: 8080
+      scheme: http
+      interval: 30s
+      scrapeTimeout: 10s
+        # not sure if the tls_conf and bearer_token is correct
+        # taken from : https://book-v1.book.kubebuilder.io/beyond_basics/controller_metrics.html
+        # tls_config:
+      # insecure_skip_verify: true
+      # bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+  #  selector:
+  #    matchLabels:
+  #      app: log-exploration-api
+  namespaceSelector:
+    matchNames:
+      - openshift-logging
+  selector:
+    matchLabels:
+      app: log-exploration-api
