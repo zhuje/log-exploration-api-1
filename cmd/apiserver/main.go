@@ -39,7 +39,6 @@ func main() {
 	healthcontroller.NewHealthController(router, repository)
 
 	router.Run()
-
 }
 
 func initCustomZapLogger(level string) (*zap.Logger, error) {
