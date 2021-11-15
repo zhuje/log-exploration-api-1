@@ -5,6 +5,7 @@ import (
 	logscontroller "github.com/ViaQ/log-exploration-api/pkg/controllers/logs"
 	metricscontroller "github.com/ViaQ/log-exploration-api/pkg/controllers/metrics"
 	"github.com/ViaQ/log-exploration-api/pkg/elastic"
+	"github.com/ViaQ/log-exploration-api/pkg/loki"
 	"github.com/ViaQ/log-exploration-api/pkg/version"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -17,6 +18,7 @@ import (
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 	appConf := configuration.ParseArgs()
+	// TODO -- create and parse configurations for loki
 
 	log, err := initCustomZapLogger(appConf.LogLevel)
 	if err != nil {
@@ -32,6 +34,14 @@ func main() {
 		log.Error("unable to create elasticsearch repo", zap.Error(err))
 		return
 	}
+	loki_repository, err := loki.NewLokiRepository(log.Named("loki"))
+	if err != nil {
+		log.Error("unable to create loki repo ", zap.Error(err))
+		return
+	}
+
+	// Test router
+	loki.
 
 	router := gin.New()
 	metricscontroller.NewMetricsController(log.Named("metrics"), router)
