@@ -3,7 +3,6 @@ package loki
 import (
 	"fmt"
 	"github.com/ViaQ/log-exploration-api/pkg/logs"
-	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
@@ -39,45 +38,11 @@ func (l LokiRepository) GetLogs() []byte {
 
 	return body
 
-	//controller := &LogsController{
-	//	log:          log,
-	//	logsProvider: logsProvider,
-	//}
-	//
-	//r := router.Group("loki")
-	//r.GET("filter",
-	//}))
-	//
-	//http.HandleFunc("/bar", func(w http.ResponseWriter, r *http.Request) {
-	//fmt.Fprintf(w, "Hello World")
-}
-
-
-
-// LOGS CONTROLLER -- routes incoming http request
-
-type LogsController struct {
-	logsProvider logs.LogsProvider
-	log          *zap.Logger
-}
-
-func NewLogsController(log *zap.Logger, logsProvider logs.LogsProvider, router *gin.Engine) *LogsController {
-	controller := &LogsController{
-		log:          log,
-		logsProvider: logsProvider,
-	}
-
-	r := router.Group("loki")
-	r.GET("/filter",  l.lokiClient.Get(URL))
-
-	return controller
-}
-
-func (controller *LogsController) FilterEntityLogs(gctx *gin.Context) {
-
-	gctx.JSON(http.StatusOK, gin.H{"Logs": "To Be Implemented"})
 
 }
+
+
+
 
 
 

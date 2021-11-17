@@ -18,7 +18,6 @@ import (
 func main() {
 	gin.SetMode(gin.ReleaseMode)
 	appConf := configuration.ParseArgs()
-	// TODO -- create and parse configurations for loki
 
 	log, err := initCustomZapLogger(appConf.LogLevel)
 	if err != nil {
@@ -34,18 +33,18 @@ func main() {
 		log.Error("unable to create elasticsearch repo", zap.Error(err))
 		return
 	}
-	loki_repository, err := loki.NewLokiRepository(log.Named("loki"))
+	lokiRepository, err := loki.NewLokiRepository(log.Named("loki"))
 	if err != nil {
 		log.Error("unable to create loki repo ", zap.Error(err))
 		return
 	}
 
-	// Test router
-	loki.
+	// should there be flag to indicate which Logs controller to use?
 
 	router := gin.New()
 	metricscontroller.NewMetricsController(log.Named("metrics"), router)
-	logscontroller.NewLogsController(log.Named("logs-controller"), repository, router)
+	logscontroller.NewLogsController(log.Named("logs-controller"), repository, router) // ElasticSearch
+	logscontroller.NewLokiLogsController(log.Named("loki-logs-controller"), lokiRepository, router)
 	healthcontroller.NewHealthController(router, repository)
 
 	router.Run()

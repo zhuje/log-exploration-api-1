@@ -27,6 +27,8 @@ spec:
           value: /etc/openshift/elasticsearch/secret/tls.key
         - name: ES_TLS
           value: "true"
+        - name: LOKI_ADDR
+            value: https://observatorium-loki-query-frontend.observatorium-logs-test:3100 # <podname>.<namespace>.<port>
         ports:
         - containerPort: 8080
         livenessProbe:
