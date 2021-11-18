@@ -14,7 +14,7 @@ if [ "$1" = "log-exploration-api" ]; then
 		-es-cert=${ES_CERT} \
 		-es-key=${ES_KEY} \
 		-es-tls=${ES_TLS} \
-		-loki-addr=${ES_ADDR}
+		-loki-addr=${LOKI_ADDR}
 fi
 
 exec "$@"
