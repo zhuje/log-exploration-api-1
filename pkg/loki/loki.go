@@ -38,18 +38,7 @@ func (l LokiRepository) GetLogs() []byte {
 
 	return body
 
-
 }
-
-
-
-
-
-
-
-
-
-
 
 // LogsProvider interface -- methods that need to be implemented
 
@@ -78,12 +67,6 @@ func (l LokiRepository) Logs(params logs.Parameters) ([]string, error) {
 	panic("implement me")
 }
 
-
 func (l LokiRepository) CheckReadiness() bool {
 	panic("implement me")
 }
-
-
-
-
-

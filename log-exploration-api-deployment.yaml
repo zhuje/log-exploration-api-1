@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: log-exploration-api-container
-        image: quay.io/openshift-logging/log-exploration-api:latest
+        # image: quay.io/openshift-logging/log-exploration-api:latest
+        image: quay.io/jezhu/loki:0
         env:
         - name: ES_ADDR
           value: https://elasticsearch.openshift-logging:9200
@@ -28,7 +29,7 @@ spec:
         - name: ES_TLS
           value: "true"
         - name: LOKI_ADDR
-            value: https://observatorium-loki-query-frontend.observatorium-logs-test:3100 # <podname>.<namespace>.<port>
+          value: https://observatorium-loki-query-frontend.observatorium-logs-test:3100 # <podname>.<namespace>.<port>
         ports:
         - containerPort: 8080
         livenessProbe:

@@ -5,13 +5,13 @@ import "flag"
 type ApplicationConfiguration struct {
 	LogLevel      string
 	Elasticsearch *ElasticsearchConfig
-	Loki		  *LokiConfig
+	Loki          *LokiConfig
 }
 
 func NewApplicationConfiguration() *ApplicationConfiguration {
 	return &ApplicationConfiguration{
 		Elasticsearch: &ElasticsearchConfig{},
-		Loki: &LokiConfig{},
+		Loki:          &LokiConfig{},
 	}
 }
 

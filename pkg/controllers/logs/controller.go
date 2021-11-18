@@ -71,10 +71,11 @@ func (controller *LogsController) FilterPodLogs(gctx *gin.Context) {
 	params := initializeQueryParameters(gctx)
 	params.Namespace = gctx.Params.ByName("namespace")
 	params.Podname = gctx.Params.ByName("podname")
-	logsList, err := controller.logsProvider.FilterPodLogs(params)
-	emitFilteredLogs(gctx, logsList, err)
-
+	logsList, err := controller.logsProvider.FilterPodLogs(params) // ElasticRepo is queried with params
+	emitFilteredLogs(gctx, logsList, err) // response
 }
+
+
 func (controller *LogsController) Logs(gctx *gin.Context) {
 	params := initializeQueryParameters(gctx)
 	logsList, err := controller.logsProvider.Logs(params)
