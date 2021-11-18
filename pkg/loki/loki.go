@@ -2,6 +2,7 @@ package loki
 
 import (
 	"fmt"
+	"github.com/ViaQ/log-exploration-api/pkg/configuration"
 	"github.com/ViaQ/log-exploration-api/pkg/logs"
 	"go.uber.org/zap"
 	"io/ioutil"
@@ -16,20 +17,23 @@ const URL = "http://localhost:3100/"
 type LokiRepository struct {
 	lokiClient *http.Client
 	log        *zap.Logger
+	address    string
 }
 
-func NewLokiRepository(log *zap.Logger) (logs.LogsProvider, error) {
+func NewLokiRepository(log *zap.Logger, config *configuration.LokiConfig) (logs.LogsProvider, error) {
 	c := &http.Client{Timeout: time.Duration(1) * time.Second}
+
 	repository := &LokiRepository{
 		log:        log,
 		lokiClient: c,
+		address: config.LokiAddress,
 	}
 	return repository, nil
 }
 
 func (l LokiRepository) GetLogs() []byte {
 	//c := http.Client{Timeout: time.Duration(1) * time.Second}
-	resp, err := l.lokiClient.Get(URL)
+	resp, err := l.lokiClient.Get(l.address)
 	if err != nil {
 		fmt.Printf("Error %s", err)
 	}

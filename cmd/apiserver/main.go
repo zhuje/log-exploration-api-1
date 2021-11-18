@@ -33,7 +33,7 @@ func main() {
 		log.Error("unable to create elasticsearch repo", zap.Error(err))
 		return
 	}
-	lokiRepository, err := loki.NewLokiRepository(log.Named("loki"))
+	lokiRepository, err := loki.NewLokiRepository(log.Named("loki"), appConf.Loki)
 	if err != nil {
 		log.Error("unable to create loki repo ", zap.Error(err))
 		return
