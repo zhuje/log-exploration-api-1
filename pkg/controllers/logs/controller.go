@@ -10,6 +10,19 @@ import (
 	"go.uber.org/zap"
 )
 
+type Error struct {
+	Error    string	 `json:"error"`
+	LogsList []string `json:"logsList"`
+}
+
+//// album represents data about a record album.
+//type album struct {
+//	ID     string  `json:"id"`
+//	Title  string  `json:"title"`
+//	Artist string  `json:"artist"`
+//	Price  float64 `json:"price"`
+//}
+
 type LogsController struct {
 	logsProvider logs.LogsProvider
 	log          *zap.Logger
@@ -53,14 +66,28 @@ func initializeQueryParameters(gctx *gin.Context) logs.Parameters {
 func emitFilteredLogs(gctx *gin.Context, logsList []string, err error) {
 	if err != nil {
 		if err.Error() == logs.NotFoundError().Error() { //If error is not nil, and logs are not nil, implies a user error has occurred
-			gctx.JSON(http.StatusBadRequest, gin.H{
-				"Please check the input parameters": []string{err.Error()},
+			gctx.JSON(http.StatusBadRequest, Error{
+				Error:    logs.NotFoundError().Error(),
+				LogsList: logsList,
 			})
+			//gctx.JSON(http.StatusBadRequest, gin.H{
+			//	"error": logs.NotFoundError().Error(),
+			//	"logs": logsList,
+			//	// "Please check the input parameters": []string{err.Error()},
+			//})
 			return
 		} else {
-			gctx.JSON(http.StatusInternalServerError, gin.H{ //If error is not nil and logs are not nil, implies an internal server error might have ocurred
-				"An error occurred": []string{err.Error()},
+			gctx.JSON(http.StatusInternalServerError, Error{ //If error is not nil and logs are not nil, implies an internal server error might have ocurred
+				Error: err.Error(),
+				LogsList:  logsList,
+				//"An error occurred": []string{err.Error()},
 			})
+
+			//gctx.JSON(http.StatusInternalServerError, gin.H{ //If error is not nil and logs are not nil, implies an internal server error might have ocurred
+			//	"error": err.Error(),
+			//	"logs":  logsList,
+			//	//"An error occurred": []string{err.Error()},
+			//})
 			return
 		}
 	}

@@ -2,6 +2,7 @@ package logscontroller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -56,6 +57,7 @@ func performTests(t *testing.T, tt testStruct, url string, provider *elastic.Moc
 		t.Errorf("failed to marshal test data. E: %v", err)
 	}
 	expectedResp := string(expected)
+	fmt.Println("Expected response is :", expectedResp)
 	if resp != expectedResp {
 		t.Errorf("expected response to be %s, got %s", expectedResp, resp)
 	}
@@ -406,6 +408,7 @@ func Test_ControllerFilterLabelLogs(t *testing.T) {
 			},
 			[]string{"test-log pod_name: openshift-kube-scheduler-ip-10-0-157-165.ec2.internal, namespace_name: openshift-kube-scheduler, flat_labels: app=openshift-kube-scheduler,revision=8,scheduler=true"},
 			map[string][]string{"Please check the input parameters": {"Not Found Error"}},
+			//map[string][]string{"Please check the input parameters": {"Not Found Error"}},
 			400,
 		},
 		{
