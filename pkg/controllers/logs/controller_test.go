@@ -57,7 +57,9 @@ func performTests(t *testing.T, tt testStruct, url string, provider *elastic.Moc
 		t.Errorf("failed to marshal test data. E: %v", err)
 	}
 	expectedResp := string(expected)
+	// TODO DELETE
 	fmt.Println("Expected response is :", expectedResp)
+	//     controller_test.go:63: expected response to be {"error":["Not Found Error"],"logsList":null}, got {"error":"Not Found Error","logsList":null}
 	if resp != expectedResp {
 		t.Errorf("expected response to be %s, got %s", expectedResp, resp)
 	}
@@ -134,7 +136,7 @@ func Test_ControllerFilterLogs(t *testing.T) {
 				"namespace": "world",
 			},
 			[]string{"test-log pod_name: openshift-kube-scheduler-ip-10-0-157-165.ec2.internal, namespace_name: openshift-kube-scheduler"},
-			map[string][]string{"Please check the input parameters": {"Not Found Error"}},
+			map[string][]string{"error": {"Not Found Error -- Please check the input parameters"}, "logsList": nil },
 			400,
 		},
 		{
@@ -147,7 +149,7 @@ func Test_ControllerFilterLogs(t *testing.T) {
 				"finishtime": "hey",
 			},
 			[]string{"test-log pod_name: openshift-kube-scheduler-ip-10-0-157-165.ec2.internal, namespace_name: openshift-kube-scheduler"},
-			map[string][]string{"Please check the input parameters": {"Not Found Error"}},
+			map[string][]string{"error": {"Not Found Error -- Please check the input parameters"}, "logsList": nil },
 			400,
 		},
 		{
@@ -160,7 +162,7 @@ func Test_ControllerFilterLogs(t *testing.T) {
 				"finishtime": "2022-03-17T14:23:20+05:30",
 			},
 			[]string{"test-log pod_name: openshift-kube-scheduler-ip-10-0-157-165.ec2.internal, namespace_name: openshift-kube-scheduler"},
-			map[string][]string{"Please check the input parameters": {"Not Found Error"}},
+			map[string][]string{"error": {"Not Found Error -- Please check the input parameters"}, "logsList": nil },
 			400,
 		},
 	}
