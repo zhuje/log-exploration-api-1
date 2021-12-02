@@ -23,8 +23,7 @@ type testStruct struct {
 	Status     int
 }
 
-var errorResponse = map[string]interface{}{"Error": "Not Found Error -- Please check the input parameters", "Logs": nil}
-
+var errorResponse = map[string]interface{}{"Logs": nil, "Error": "Not Found Error, please check the input parameters"}
 
 func initProviderAndRouter() (p *elastic.MockedElasticsearchProvider, r *gin.Engine) {
 	provider := elastic.NewMockedElastisearchProvider()
