@@ -39,9 +39,7 @@ func NewLogsController(log *zap.Logger, logsProvider logs.LogsProvider, router *
 }
 
 func (controller *LogsController) FilterEntityLogs(gctx *gin.Context) {
-
 	gctx.JSON(http.StatusOK, gin.H{"Logs": "To Be Implemented"})
-
 }
 
 func initializeQueryParameters(gctx *gin.Context) logs.Parameters {
