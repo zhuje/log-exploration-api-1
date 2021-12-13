@@ -63,6 +63,9 @@ func CreateElasticConfig(config *configuration.ElasticsearchConfig) (*elasticsea
 			return nil, err
 		}
 		cfg.Transport = &http.Transport{
+			// JZ Update configuration object with TIMEOUT header -- ch
+			ResponseHeaderTimeout: config.Timeout,
+
 			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify: true,
 				Certificates:       []tls.Certificate{cert},
@@ -89,6 +92,7 @@ func NewElasticRepository(log *zap.Logger, config *configuration.ElasticsearchCo
 	}
 	return repository, nil
 }
+
 func generateLogs(queryBuilder []map[string]interface{}, params logs.Parameters, repository *ElasticRepository) ([]string, error) {
 	if len(params.Index) > 0 {
 		term := map[string]interface{}{
@@ -324,12 +328,19 @@ func getLogsList(token map[string]string, query map[string]interface{}, esClient
 		esClient.Search.WithIndex(constants.InfraIndexName, constants.AppIndexName, constants.AuditIndexName),
 		esClient.Search.WithTrackTotalHits(true),
 		esClient.Search.WithPretty(),
+		// JZ Timeout -- replace so that it is configurable
+		// esClient.Search.WithTimeout(time.Millisecond*80),
+		//
+		// context.WithTimeout(context.Background(),time.Duration(time.Millisecond*80)),
 	)
 
+	// JZ need to check here for type of error -- if there is a timeout error -- send this to client
 	if err != nil {
 		log.Error("failed exec ES query", zap.Error(err))
 		return logsList, getError(err)
 	}
+
+	// JZ -- testing MOCK esclient -- defer x milisecond
 
 	var result map[string]interface{}
 
