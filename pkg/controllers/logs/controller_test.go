@@ -68,6 +68,7 @@ func performTests(t *testing.T, tt testStruct, url string, provider *elastic.Moc
 	if status != tt.Status {
 		t.Errorf("expected response to be %v, got %v", tt.Status, status)
 	}
+
 }
 
 func Test_ControllerFilterLogs(t *testing.T) {

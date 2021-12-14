@@ -173,6 +173,11 @@ func (m *MockedElasticsearchProvider) FilterLogs(params logs.Parameters) ([]stri
 	if len(resultantLogs) == 0 {
 		return nil, logs.NotFoundError()
 	}
+
+	// JZ -- delete, for testing only
+	time.Sleep(time.Second * 5)
+	println("sleeping for 5 seconds .. in mockES filterLogs()")
+
 	return resultantLogs, nil
 }
 func (m *MockedElasticsearchProvider) FilterContainerLogs(params logs.Parameters) ([]string, error) {

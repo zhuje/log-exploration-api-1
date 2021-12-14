@@ -55,6 +55,10 @@ func CreateElasticConfig(config *configuration.ElasticsearchConfig) (*elasticsea
 		Addresses: []string{
 			config.EsAddress,
 		},
+		//Transport: &http.Transport{
+		//	// JZ Update configuration object with TIMEOUT header -- ch
+		//	ResponseHeaderTimeout: config.Timeout,
+		//},
 	}
 
 	if config.UseTLS {
@@ -63,9 +67,7 @@ func CreateElasticConfig(config *configuration.ElasticsearchConfig) (*elasticsea
 			return nil, err
 		}
 		cfg.Transport = &http.Transport{
-			// JZ Update configuration object with TIMEOUT header -- ch
-			ResponseHeaderTimeout: config.Timeout,
-
+			// JZ -- Will this overwrite the timeout in the block above?
 			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify: true,
 				Certificates:       []tls.Certificate{cert},
